@@ -3,3 +3,5 @@ env/
 .idea/
 
 academy/local_*.py
+
+SMSPanel/.idea/

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} login {% endblock %}
+
+{% block body %}
+     <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 mt-10" style="margin-top: 100px;">
+                <div class="text-center">please enter code</div>
+                <form class="col-md-6 offset-md-3 mt-3" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <input type="text" class="form-control mt-2" id="exampleInputCode" name="code" placeholder="Code">
+                    {{ error_message }}
+                    <button type="submit" class="btn btn-primary mt-2 col-md-12">send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
