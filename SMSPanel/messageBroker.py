@@ -18,3 +18,4 @@ def pop_value(queue):
         phone_numbers =client.blpop(queue)
         return phone_numbers
 
+

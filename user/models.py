@@ -6,10 +6,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class User(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
-    phone_number = PhoneNumberField()
+    phone_number = PhoneNumberField(unique=True)
     premium = models.BooleanField(default=False)
     expire_time = models.DateTimeField(null=True)
     subscription = models.ForeignKey('Subscription',on_delete = models.CASCADE, related_name='users', null=True)
+    is_active = models.BooleanField(default=False)
 
 
 

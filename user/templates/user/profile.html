@@ -2,5 +2,59 @@
 {% block title %} profile {% endblock %}
 
 {% block body %}
-   <h1>profile</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 mt-4" >
+            <div class="card" >
+              <img src="..." class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ user.username }}</h5>
+                  <hr/>
+                  <ul>
+                      <li><a class="nav-link activate" href="#">Edit profile</a></li>
+                      <hr/>
+                      <li><a class="nav-link" href="#">Reset password</a></li>
+                      <hr/>
+                      <li><a class="nav-link" href="#">expire time</a></li>
+                  </ul>
+
+
+              </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-9 mt-4" >
+            <div class="" >
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a onclick="active()" class="nav-link active" aria-current="page" >Edit Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" >Reset Password</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" >Account Upgrade</a>
+                  </li>
+
+                </ul>
+
+                <div id="editProfile" class="col-md-12">
+                    <form method="post" action="{% url 'edit_profile' pk=user.id %}">
+                        {% csrf_token %}
+                        <input type="text" class="form-control mt-2" value="{{ user.first_name }}" name="first_name" placeholder="Firstname">
+                        <input type="text" class="form-control mt-2" value="{{ user.last_name }}" name="last_name" placeholder="Lastname">
+                        <input type="text" class="form-control mt-2" value="{{ user.username }}" name="username" placeholder="Username">
+                        {{ user_form.username.errors}}
+                        <button type="submit" class="btn btn-primary mt-2 col-md-12">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+</script>
 {% endblock %}

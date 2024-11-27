@@ -9,3 +9,18 @@ body{
 ul{
     list-style: none;
 }
+
+.inactive{
+    color: #bbbbbb;
+}
+
+.inactive:hover{
+    color: antiquewhite;
+}
+
+li>a{
+    text-decoration: none;
+}
+a{
+    cursor: pointer;
+}

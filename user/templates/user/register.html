@@ -1,47 +1,25 @@
 {% extends 'base.html' %}
 
-
-{% block title %}register{% endblock %}
+{% block title %} register {% endblock %}
 
 {% block body %}
-
- <div class="container">
+  <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3 mt-10" style="margin-top: 100px;">
                 <div class="text-center">please Enter your phone number</div>
                 <form class="col-md-6 offset-md-3 mt-3" method="post" action="{% url 'register' %}">
                     {% csrf_token %}
-                    <input type="text" class="form-control mt-2" id="exampleInputUsername" name="username" placeholder="username">
-                    {{ userform.username.errors}}
-                    <input type="tel" class="form-control mt-2" id="exampleInputPhoneNumber" name="phone_number" placeholder="PhoneNumber">
+                    <input type="text" class="form-control mt-2" id="exampleInputFirstname" name="first_name" placeholder="Firstname">
+                    <input type="text" class="form-control mt-2" id="exampleInputLastname" name="last_name" placeholder="Lastname">
+                    <input type="text" class="form-control mt-2" id="exampleInputUsername" name="username" placeholder="Username">
+                    {{ userform.username.errors }}
+                    <input type="text" class="form-control mt-2" id="exampleInputPhoneNumber" name="phone_number" placeholder="PhoneNumber">
                     {{ userform.phone_number.errors}}
+                    <input type="password" class="form-control mt-2" id="exampleInputPassword" name="password" placeholder="Password">
+                    {{ userform.password.errors}}
                     <button type="submit" class="btn btn-primary mt-2 col-md-12">send</button>
                 </form>
-<!--                <div class="card bg-primary-subtle">-->
-<!--                    <div class="card-body">-->
-<!--                         <form method="post" action="{% url 'register' %}" >-->
-<!--                             {% csrf_token %}-->
-<!--                              <div class="form-group">-->
-
-<!--                                <input type="text" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="username">-->
-<!--                                <small id="emailHelp" class="form-text text-muted"></small>-->
-
-<!--                                <input type="text" class="form-control mt-2" id="exampleInputFirstname" placeholder="first name">-->
-<!--                                <input type="text" class="form-control mt-2" id="exampleInputLastName" placeholder="last name">-->
-<!--                                <input type="number" class="form-control mt-2" id="exampleInputPhoneNumber" placeholder="PhoneNumber">-->
-
-<!--                                <input type="password" class="form-control mt-2" id="exampleInputPassword1" placeholder="Password">-->
-<!--                              </div>-->
-
-<!--                              <button type="submit" class="btn btn-primary mt-2">Submit</button>-->
-<!--                         </form>-->
-<!--                    </div>-->
-
-<!--                </div>-->
-
-        </div>
             </div>
-
-
+        </div>
     </div>
 {% endblock %}
