@@ -40,3 +40,10 @@ class UpdateForm(forms.Form):
         fields = ('first_name','last_name', 'username')
 
     username = forms.CharField(required=True)
+
+class ResetPasswordForm(forms.Form):
+    class Meta:
+        model = User
+        fields = ('password',)
+
+    password = forms.CharField(widget=forms.PasswordInput, required=True)

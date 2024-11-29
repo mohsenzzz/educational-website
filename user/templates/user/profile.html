@@ -28,33 +28,70 @@
             <div class="" >
                 <ul class="nav nav-tabs">
                   <li class="nav-item">
-                    <a onclick="active()" class="nav-link active" aria-current="page" >Edit Profile</a>
+                    <a onclick="show('editProfile')" class="nav-link tab-button active" aria-current="page" >Edit Profile</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" >Reset Password</a>
+                    <a onclick="show('resetPassword')" class="nav-link tab-button" >Reset Password</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" >Account Upgrade</a>
+                    <a class="nav-link tab-button" >Account Upgrade</a>
                   </li>
 
                 </ul>
-
-                <div id="editProfile" class="col-md-12">
+                <div class="tab-content">
+                    <div id="editProfile" class="col-md-12 tab-pane active">
                     <form method="post" action="{% url 'edit_profile' pk=user.id %}">
                         {% csrf_token %}
                         <input type="text" class="form-control mt-2" value="{{ user.first_name }}" name="first_name" placeholder="Firstname">
                         <input type="text" class="form-control mt-2" value="{{ user.last_name }}" name="last_name" placeholder="Lastname">
                         <input type="text" class="form-control mt-2" value="{{ user.username }}" name="username" placeholder="Username">
                         {{ user_form.username.errors}}
+
+
+                            <input class="form-control mt-2" type="file" name="avatar" accept="image/png, image/jpeg" id="formFile"/>
+
                         <button type="submit" class="btn btn-primary mt-2 col-md-12">Update</button>
                     </form>
                 </div>
+                 <div id="resetPassword" class="col-md-12 tab-pane">
+                    <form method="post" action="{% url 'reset_password' pk=user.id %}">
+                        {% csrf_token %}
+                        <input type="password" class="form-control mt-2"  name="password" placeholder="New Password"/>
+                        {{ user_form.username.errors}}
+                        <button type="submit" class="btn btn-primary mt-2 col-md-12">Reset</button>
+                    </form>
+                </div>
+                </div>
+
             </div>
         </div>
 
     </div>
 </div>
 <script>
+  const tabs = document.querySelectorAll('.tab-button');
+  const tabContent = document.querySelectorAll('.tab-pane');
+function show(id) {
+    tabs.forEach(tab => {
+
+        // const targetTab = tab.dataset.tab;
+
+
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        tabContent.forEach(content => {
+            content.classList.remove('active');
+        });
+
+
+        document.getElementById(id).classList.add('active')
+        // document.getElementById(targetTab).classList.add('active');
+
+    });
+
+}
 
 </script>
 {% endblock %}

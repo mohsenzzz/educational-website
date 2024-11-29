@@ -24,3 +24,7 @@ li>a{
 a{
     cursor: pointer;
 }
+
+.show{
+    display: block;
+}
