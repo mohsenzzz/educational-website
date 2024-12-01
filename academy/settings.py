@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     'django_bootstrap5',
+    'django_bootstrap_icons',
+    'ckeditor',
     #apps
     "user.apps.UserConfig",
+    "post.apps.PostConfig",
 
 ]
 
@@ -140,3 +143,6 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = '/user/login/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'

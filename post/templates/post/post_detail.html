@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %} {{post.title}} {% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% include 'header.html' %}
+        {% if post.title %}
+            <div class="row">
+                <div>
+                    <div class="text-center mt-3">
+                        <h4>{{ post.title }}</h4>
+                        <div class="mt-5"></div>
+                        {{ post.content|safe }}
+                    </div>
+                    <hr/>
+                    <div class="col-md-6 text-start">
+                        <h5>comments</h5>
+                        {% if comments %}
+                           {% for comment in comments %}
+                                <div class="border rounded p-3 mt-2">
+                                    <div class="text-start">
+                                        {{ comment.user.username }} | {{ comment.created_at }}
+                                    </div>
+                                    <div class="text-end">
+                                        {{ comment.content }}
+
+                                    </div>
+                                </div>
+                           {% endfor %}
+                        {% else %}
+                            <div class="text-center">
+                                there are no comments!
+                            </div>
+                        {% endif %}
+                        <form class="row mt-2" method="post" action="">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" name="comment" placeholder="your comment"/>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary ">send</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+        <div class="text-center border rounded text-big mt-10 p-5 bg-danger text-light">
+            {{message|linebreaks}}
+            {% if not post.premium %}
+                <a class="text-info text-decoration-none" href="#">Subscription</a>
+            {% endif %}
+        </div>
+
+        {% endif %}
+    </div>
+{% endblock %}

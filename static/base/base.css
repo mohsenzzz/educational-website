@@ -23,8 +23,13 @@ li>a{
 }
 a{
     cursor: pointer;
+    text-decoration: none;
 }
 
 .show{
     display: block;
+}
+
+.indent{
+    text-indent: 10px;
 }

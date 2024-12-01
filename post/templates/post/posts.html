@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+   {% load bootstrap_icons %}
+{% block title %}posts {% endblock %}
+
+
+
+
+{% block body %}
+<div class="container">
+    {% include 'header.html' %}
+    <div>
+        <div class="row">
+            <div class="col-md-9">
+                 {% for post in page_obj.object_list %}
+                <div class="border rounded text-end p-3 mt-2">
+
+                    <a href="{% url 'post_detail' post_id=post.id %}">
+                        <h5> {{ post.title }} {% if post.premium %} {% bs_icon 'star-fill' color='gold' %}  {% endif %}</h5>
+                        <p class="indent">{{ post.description }}</p>
+                        <div class="text-start">
+                           comment {{ post.comment_count }}
+
+                        </div>
+                    </a>
+
+                </div>
+                {% endfor %}
+
+                <div class="text-center">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{page_obj.previous_page_number}}"> < </a>
+                    {% endif %}
+                    <span>{{ page_obj.number }}</span>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{page_obj.next_page_number}}"> ></a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3 border rounded p-3 mt-2">
+                <ul>
+                    <li>filter</li>
+                    <hr/>
+                    <ul>
+                        <li>
+                           <a href="{% url 'posts_list' %}"> All</a>
+                        </li>
+                        <li>
+                           <a href="{% url 'posts_premium' %}"> Premuim</a>
+                        </li>
+                        <li>
+                           <a href="{% url 'posts_free' %}" > Free</a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
