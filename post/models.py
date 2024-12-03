@@ -1,10 +1,10 @@
 from django.db import models
-from ckeditor.fields import RichTextField
 from django.core.paginator import Paginator
 from django.db.models import Sum,Count
-from django.http import HttpResponse
-from pyexpat.errors import messages
+from django.shortcuts import get_object_or_404
 from ckeditor.fields import RichTextField
+from django.utils.text import slugify
+from mptt.models import MPTTModel, TreeForeignKey
 
 from user.models import User
 # Create your models here.
@@ -14,7 +14,8 @@ class Post(models.Model):
     premium = models.BooleanField(default=False)
     description = models.TextField()
     content = RichTextField()
-    image = models.ImageField(upload_to='posts/')
+    categories = models.ManyToManyField('Category',)
+    image = models.ImageField(upload_to='posts/',null=True,blank=True)
 
     def __str__(self):
         return self.title
@@ -44,14 +45,14 @@ class Post(models.Model):
     def post_detail(cls,user, post_id):
         try:
             post = cls.objects.filter(id=post_id).prefetch_related('comments').first()
-
+            print(post)
 
             if post.premium:
                 if user.premium is False:
                     message = {'message': 'Sorry you are not premium!\n please buy subscription.', 'premium':False}
                     return message
             comments = post.comments.all().select_related('user').order_by('created_at')
-            print(comments[0].user.username)
+
             context = {'post':post, 'comments':comments}
             return context
         except Exception as e:
@@ -64,11 +65,21 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='comments')
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='comments')
     content = models.TextField()
+    # content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.content
 
+    @classmethod
+    def create_comment(cls, user, post_id , content):
+
+        post = get_object_or_404(Post,pk=post_id)
+        if post:
+            comment = Comment.objects.create(user=user, post=post, content=content)
+            return True
+        else:
+            return False
 
 
 
@@ -76,10 +87,59 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
     post= models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
 
-class Category(models.Model):
+class Category(MPTTModel):
     title = models.CharField(max_length=200)
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.PROTECT)
-    posts = models.ManyToManyField('Post', null=True, blank=True)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
+    # posts = models.ManyToManyField('Post',null=True,blank=True)
+    slug = models.SlugField(max_length=200,default="",allow_unicode=True)
 
     class Meta:
         verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.title
+
+
+    def save(self, *args, **kwargs):
+        print('1111111111111111111111111111111111111111')
+
+        print('222222222222222222222222')
+        self.slug = slugify(self.title,allow_unicode=True)
+        if self.parent:
+            print('33333333333333333333333')
+            self.slug = f'{self.parent.slug}-{self.slug}'
+        super(Category,self).save(*args, **kwargs)
+
+    @classmethod
+    def get_categories(cls):
+        categories = Category.objects.all()
+        return categories
+
+    @classmethod
+    def get_all_posts_by_category(cls,category_slug,page_number):
+        # category = get_object_or_404(Category, slug=category_slug)
+        # posts = Post.objects.filter(categories=category)
+        posts = Post.objects.prefetch_related('categories').filter(categories__slug=category_slug)
+        paginator = Paginator(posts, 1)
+        page_obj = paginator.get_page(page_number)
+        return page_obj
+
+    @classmethod
+    def get_premium_posts_by_category(cls, category_slug, page_number):
+        # category = get_object_or_404(Category, slug=category_slug)
+        # posts = Post.objects.filter(categories=category)
+        posts = Post.objects.prefetch_related('categories').filter(categories__slug=category_slug,premium=True)
+        paginator = Paginator(posts, 1)
+        page_obj = paginator.get_page(page_number)
+        return page_obj
+
+    @classmethod
+    def get_free_posts_by_category(cls, category_slug, page_number):
+        # category = get_object_or_404(Category, slug=category_slug)
+        # posts = Post.objects.filter(categories=category)
+        posts = Post.objects.prefetch_related('categories').filter(categories__slug=category_slug,premium=False)
+        paginator = Paginator(posts, 1)
+        page_obj = paginator.get_page(page_number)
+        return page_obj
+
+

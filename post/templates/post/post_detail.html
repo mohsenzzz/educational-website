@@ -33,9 +33,12 @@
                                 there are no comments!
                             </div>
                         {% endif %}
-                        <form class="row mt-2" method="post" action="">
+                        {{ post.categories }}
+                        <form class="row mt-2" method="post" action="{% url 'add_comment' post_id=post.id %}">
+<!--                            {{ comment_form.content }}-->
+                            {% csrf_token %}
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="comment" placeholder="your comment"/>
+                                <input class="form-control" type="text"  name="comment" placeholder="your comment"/>
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary ">send</button>
@@ -56,4 +59,10 @@
 
         {% endif %}
     </div>
+<script>
+    function resizeInput(input) {
+  // input.style.height = input.value.length * 10 + 'px'; // Adjust the multiplier as needed
+        input.classList.add('h-auto');
+}
+</script>
 {% endblock %}
