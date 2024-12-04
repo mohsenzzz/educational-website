@@ -5,8 +5,8 @@ urlpatterns = [
 
     path('all/', views.posts_list, name='posts_list'),
 
-    path('premium/', views.posts_premium, name='posts_premium'),
-    path('free/', views.posts_free, name='posts_free'),
+    # path('premium/', views.posts_premium, name='posts_premium'),
+    # path('free/', views.posts_free, name='posts_free'),
     path('all/(?P<slug>[-\w]+)/', views.all_posts_category, name='all_posts_category'),
 
     # re_path(r'premium/(?P<slug>[-\w]+)/', views.premium_posts_category, name='premium_posts_category'),

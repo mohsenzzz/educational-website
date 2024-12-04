@@ -3,8 +3,9 @@
 {% block title %} {{post.title}} {% endblock %}
 
 {% block body %}
+{% include 'header.html' %}
     <div class="container">
-        {% include 'header.html' %}
+
         {% if post.title %}
             <div class="row">
                 <div>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} Subscription {% endblock %}
+
+
+{% block body %}
+{% include 'header.html' %}
+<div class="container">
+    <div class="row mt-5">
+       {% for subscription in subscriptions %}
+        <div class="card col-md-3 offset-md-1 text-center" >
+          <div class="card-body">
+            <h5 class="card-title">{{subscription.title}}</h5>
+            <p class="card-text">{{subscription.description}}</p>
+            <a href="{% url 'go_to_gateway' pk=request.user.id %}" class="btn btn-primary">خرید</a>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

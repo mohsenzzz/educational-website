@@ -7,13 +7,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active text-light" aria-current="page" href="#">My Profile</a>
+          <a class="nav-link active text-light" aria-current="page" href="{% url 'profile' %}">My Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link inactive" href="#">Posts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link inactive" href="#">Categories</a>
+          <a class="nav-link inactive" href="{% url 'posts_list' %}">Posts</a>
         </li>
            <li class="nav-item">
           <a class="nav-link inactive" href="#">Price</a>
