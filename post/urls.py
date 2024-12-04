@@ -4,8 +4,7 @@ from . import views
 urlpatterns = [
 
     path('all/', views.posts_list, name='posts_list'),
-
-    # path('premium/', views.posts_premium, name='posts_premium'),
+ # path('premium/', views.posts_premium, name='posts_premium'),
     # path('free/', views.posts_free, name='posts_free'),
     path('all/(?P<slug>[-\w]+)/', views.all_posts_category, name='all_posts_category'),
 
