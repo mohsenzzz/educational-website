@@ -1,0 +1,16 @@
+requirements
+1.database postgresql
+2. redis server
+
+RUN SMSPanel
+1. insert redis ip and port in config file
+2. run SMSpanel
+
+RUN academy project
+1. create virtual environment ( python -m venv env)
+2. active env
+3.pip install requirements.txt
+4.insert postgresql server info in local_settings.py
+5.migrations (python manage.py makemigrations)
+6.python manage.py migrate
+7.python manage.py runserver
