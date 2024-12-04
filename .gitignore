@@ -5,3 +5,7 @@ env/
 academy/local_*.py
 
 SMSPanel/.idea/
+
+academy/local_settings.py
+
+*.pyc
