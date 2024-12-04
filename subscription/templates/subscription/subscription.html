@@ -12,7 +12,7 @@
           <div class="card-body">
             <h5 class="card-title">{{subscription.title}}</h5>
             <p class="card-text">{{subscription.description}}</p>
-            <a href="{% url 'go_to_gateway' pk=request.user.id %}" class="btn btn-primary">خرید</a>
+            <a href="{% url 'go_to_gateway' pk=subscription.id %}" class="btn btn-primary">خرید</a>
           </div>
         </div>
         {% endfor %}

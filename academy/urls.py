@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from azbankgateways.urls import az_bank_gateways_urls
+from subscription import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('user/',include('user.urls')),
     path('post/',include('post.urls')),
+    path("bankgateways/", az_bank_gateways_urls()),
+    path('go_to_gateway/<int:pk>',views.go_to_gateway_view,name='go_to_gateway'),
+    path('callback_gateway/',views.callback_gateway_view,name='callback_gateway'),
+    path('subscription/',include('subscription.urls')),
+
 ]

@@ -29,23 +29,25 @@ class SubscriptionView(APIView):
 def go_to_gateway_view(request,pk):
     # خواندن مبلغ از هر جایی که مد نظر است
     subscription = Subscription.objects.filter(pk=pk).first()
-    amount = subscription.price
+    print(subscription)
+    amount = 10000
     # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
-    user_mobile_number = request.user.phone_number  # اختیاری
+    user_mobile_number = "+989112221234"  # اختیاری
 
     factory = bankfactories.BankFactory()
     try:
         bank = (
-            factory.auto_create()
+            factory.create()
         )  # or factory.create(bank_models.BankType.BMI) or set identifier
         bank.set_request(request)
         bank.set_amount(amount)
         # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
-        bank.set_client_callback_url(reverse("callback-gateway",kwargs={'days':subscription.validity}))
+        bank.set_client_callback_url("/callback-gateway")
         bank.set_mobile_number(user_mobile_number)  # اختیاری
 
         # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
         # پرداخت برقرار کنید.
+        print("======================================================================")
         bank_record = bank.ready()
 
         # هدایت کاربر به درگاه بانک
@@ -56,7 +58,7 @@ def go_to_gateway_view(request,pk):
         raise e
 
 
-def callback_gateway_view(request,days):
+def callback_gateway_view(request):
     tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
     if not tracking_code:
         logging.debug("این لینک معتبر نیست.")
@@ -73,7 +75,7 @@ def callback_gateway_view(request,days):
         # پرداخت با موفقیت انجام پذیرفته است و بانک تایید کرده است.
         # می توانید کاربر را به صفحه نتیجه هدایت کنید یا نتیجه را نمایش دهید.
         user = User.objects.get(pk=request.user.id)
-        user.expire_time = datetime.now()+timedelta(days=days)
+        # user.expire_time = datetime.now()+timedelta(days=days)
         user.premium = True
         user.save()
         return HttpResponse("پرداخت با موفقیت انجام شد.")
