@@ -5,9 +5,7 @@ from messageBroker import pop_value, push_value, phone_numbers, client
 
 if __name__ == '__main__':
     print('start redis')
-    date= datetime.now()
-    print(date)
-    print(date+timedelta(10))
+
 
     while True:
         phone = pop_value('phone')
