@@ -65,7 +65,6 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='comments')
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='comments')
     content = models.TextField()
-    # content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -76,7 +75,7 @@ class Comment(models.Model):
 
         post = get_object_or_404(Post,pk=post_id)
         if post:
-            comment = Comment.objects.create(user=user, post=post, content=content)
+            Comment.objects.create(user=user, post=post, content=content)
             return True
         else:
             return False
@@ -90,7 +89,6 @@ class Like(models.Model):
 class Category(MPTTModel):
     title = models.CharField(max_length=200)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
-    # posts = models.ManyToManyField('Post',null=True,blank=True)
     slug = models.SlugField(max_length=200,default="",allow_unicode=True)
 
     class Meta:

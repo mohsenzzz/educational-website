@@ -20,22 +20,16 @@ def register(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         number = PhoneNumberField(request.POST['phone_number'],region='IR')
-
         if user_form.is_valid():
             phone_number = request.POST['phone_number']
             push_value('phone', phone_number)
             user_form.save()
             request.session['phonenumber'] = request.POST['phone_number']
             return redirect('verify_user')
-
         return render(request, 'user/register.html', {'userform': user_form})
 
 def login(request):
-    '''
-    this method is used to register the user by phone_number
-    :param request:
-    :return:
-    '''
+
 
     if request.method == 'GET':
         return render(request, 'user/login.html')

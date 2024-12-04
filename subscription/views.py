@@ -29,10 +29,9 @@ class SubscriptionView(APIView):
 def go_to_gateway_view(request,pk):
     # خواندن مبلغ از هر جایی که مد نظر است
     subscription = Subscription.objects.filter(pk=pk).first()
-    print(subscription)
-    amount = 10000
+    amount = subscription.price
     # تنظیم شماره موبایل کاربر از هر جایی که مد نظر است
-    user_mobile_number = "+989112221234"  # اختیاری
+    user_mobile_number = request.user.phone_number  # اختیاری
 
     factory = bankfactories.BankFactory()
     try:
@@ -42,7 +41,7 @@ def go_to_gateway_view(request,pk):
         bank.set_request(request)
         bank.set_amount(amount)
         # یو آر ال بازگشت به نرم افزار برای ادامه فرآیند
-        bank.set_client_callback_url("/callback-gateway")
+        bank.set_client_callback_url(reverse("/callback-gateway",kwargs={'days':subscription.validity}))
         bank.set_mobile_number(user_mobile_number)  # اختیاری
 
         # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
@@ -58,7 +57,7 @@ def go_to_gateway_view(request,pk):
         raise e
 
 
-def callback_gateway_view(request):
+def callback_gateway_view(request,days):
     tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
     if not tracking_code:
         logging.debug("این لینک معتبر نیست.")
@@ -75,7 +74,7 @@ def callback_gateway_view(request):
         # پرداخت با موفقیت انجام پذیرفته است و بانک تایید کرده است.
         # می توانید کاربر را به صفحه نتیجه هدایت کنید یا نتیجه را نمایش دهید.
         user = User.objects.get(pk=request.user.id)
-        # user.expire_time = datetime.now()+timedelta(days=days)
+        user.expire_time = datetime.now()+timedelta(days=days)
         user.premium = True
         user.save()
         return HttpResponse("پرداخت با موفقیت انجام شد.")
