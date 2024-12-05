@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-md-3 mt-4" >
             <div class="card" >
-              <img src="..." class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title text-center">{{ user.username }}</h5>
                   <hr/>
                   <ul>
-                      <li><a class="nav-link activate" href="#">Edit profile</a></li>
+                      <li><a class="nav-link activate" href="#"> expire subscription :{% if user.expire_tile %}
+                         {{user.expire_time}} {% else %} 0{% endif %}</a></li>
                       <hr/>
-                      <li><a class="nav-link" href="#">Reset password</a></li>
+                      <li><a class="nav-link" href="#">{{user.first_name}} {{user.last_name}}</a></li>
                       <hr/>
                       <li><a class="nav-link" href="#">expire time</a></li>
                   </ul>
